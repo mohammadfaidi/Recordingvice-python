@@ -1,0 +1,108 @@
+Simple Voice Recorder in Python
+pip install pipwin
+
+pip install wheel
+
+pip3 install pyaudio
+python -m pip install --upgrade pip
+
+(x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.28.29910\\bin\\HostX86\\x64\\cl.exe' failed with exit status 2
+
+pip install pipwin
+
+pipwin install pyaudio
+
+https://www.lfd.uci.edu/~gohlke/pythonlibs/#pyaudio
+
+edit path pip and python localdataa to envi to run from cmd 
+
+cmd pip install PyAudio‑0.2.11‑cp38‑cp38m‑win_amd64.whl
+
+
+edit p
+pip3 install wave
+
+import pyaudio
+
+
+import wave
+
+audio = pyaudio.PyAudio()
+
+stream = audio.open(format=pyaudio.paInt16,channels=1,rate=44100,input=True,frames_per_buffer=1024)
+
+
+frames = []
+
+try:
+
+	while True:
+		data = stream.read(1024)
+
+		frames.append(data)
+
+except KeyboardInterrupt:
+	pass
+
+
+stream.stop_stream()
+stream.close()
+audio.terminate()
+
+sound_file = wave.open("myrecording.wav","wb")
+
+sound_file.setnchannels(1)
+
+sound_file.setsampwidth(audio.get_sample_size(pyaudio.paInt16))
+
+
+sound_file.setframerate(444100)
+
+sound_file.writeframes(b''.join(frames))
+
+sound_file.close()
+
+--------
+import pyaudio
+import wave
+
+CHUNK = 1024
+FORMAT = pyaudio.paInt16
+CHANNELS = 2
+RATE = 44100
+RECORD_SECONDS = 10
+WAVE_OUTPUT_FILENAME = "output.wav"
+
+p = pyaudio.PyAudio()
+
+stream = p.open(format=FORMAT,
+                channels=CHANNELS,
+                rate=RATE,
+                input=True,
+                frames_per_buffer=CHUNK)
+
+print("* recording")
+
+frames = []
+
+for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
+    data = stream.read(CHUNK)
+    frames.append(data)
+
+print("* done recording")
+
+stream.stop_stream()
+stream.close()
+p.terminate()
+
+wf = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
+wf.setnchannels(CHANNELS)
+wf.setsampwidth(p.get_sample_size(FORMAT))
+wf.setframerate(RATE)
+wf.writeframes(b''.join(frames))
+wf.close()
+
+-----------
+
+
+
